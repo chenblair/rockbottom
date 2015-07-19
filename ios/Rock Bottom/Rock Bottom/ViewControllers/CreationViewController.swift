@@ -62,9 +62,9 @@ class CreationViewController: UIViewController
     {
         story = Story(storyText: storyTextView.text, shittiness: rating)
         
-        postStory()
+        self.postStory()
         
-        performSegueWithIdentifier("showStories", sender: nil)
+        self.performSegueWithIdentifier("showStories", sender: nil)
     }
     
     func postStory()
@@ -91,6 +91,7 @@ class CreationViewController: UIViewController
                             self.story?.storyID = json["id"].intValue
                         }
                     }
+                    println("finished posting")
                 })
         }
         else

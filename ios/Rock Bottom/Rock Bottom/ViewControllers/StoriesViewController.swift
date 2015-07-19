@@ -13,9 +13,12 @@ import SwiftyJSON
 class StoriesViewController: UIViewController
 {
     var userStory: Story?
-    var relatedStoriesIds: [Int] = []
-    var relatedStories: [String] = []
+    var relatedStoriesIds: [String]?
+    var relatedStories: [String]?
     var currentStory: Int = 0
+    
+    var idsFound = false
+    var storiesFound = false
     
     var storyBody: String = "-1"
     
@@ -27,23 +30,11 @@ class StoriesViewController: UIViewController
         
         // Do any additional setup after loading the view.
         
-        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
-
-        var myQueue = dispatch_queue_create("com.myexample.MyCustomQueue", nil)
+        getRelatedStoriesIds()
         
-        dispatch_sync(myQueue)
-        {
-            self.getRelatedStoriesIds()
-        }
-        dispatch_sync(myQueue)
-        {
-            self.getRelatedStories()
-        }
-        dispatch_sync(myQueue)
-        {
-            //self.displayStory(0)
-        }
-       
+        getRelatedStories()
+        
+        displayStory(0)
     
         var swipeLeft: UISwipeGestureRecognizer =
         UISwipeGestureRecognizer(target: self, action: "getNextStory")
@@ -64,8 +55,6 @@ class StoriesViewController: UIViewController
         storyTextView.editable = true
         storyTextView.font = UIFont.systemFontOfSize(16)
         storyTextView.editable = false
-        
-        // displayStory(0)
 
     }
 
@@ -79,6 +68,8 @@ class StoriesViewController: UIViewController
     {
         //println(userStory?.storyID)
         var request = HTTPTask()
+        
+        relatedStoriesIds = [String]()
         
         request.GET("http://rockbottom.ml:8888/story/"
             + "\(userStory!.storyID)" + "/related", parameters: nil,
@@ -96,10 +87,10 @@ class StoriesViewController: UIViewController
                         allowLossyConversion: false)
                     {
                         let jsonIds = JSON(data: dataFromString)
-                        //println(json)
-                        self.relatedStoriesIds = jsonIds["ids"].arrayObject as! [Int]
-                        println(self.relatedStoriesIds)
-                        
+                        //println(jsonIds)
+                        self.relatedStoriesIds = (jsonIds["ids"].arrayObject as? [String])
+                        println(self.relatedStoriesIds!)
+                        self.idsFound = true
                     }
                 }
             })
@@ -107,18 +98,20 @@ class StoriesViewController: UIViewController
     
     func getRelatedStories()
     {
-        while(relatedStoriesIds.count <= 0) {}
+        while(!idsFound) {}
         
-        var arr: [String] = []
+        relatedStories = [String]()
         
-        for(var i=0;i<relatedStoriesIds.count;i++)
+        for(var i=0;i<relatedStoriesIds!.count;i++)
         {
-            let curId = relatedStoriesIds[i]
+            let curId = relatedStoriesIds![i]
+            println("http://rockbottom.ml:8888/story/"
+                + curId)
             
             let storyRequest = HTTPTask()
             
             storyRequest.GET("http://rockbottom.ml:8888/story/"
-                + "\(curId)", parameters: nil,
+                + curId, parameters: nil,
                 completionHandler:
                 { (response: HTTPResponse) -> Void in
                     if let err = response.error
@@ -126,36 +119,42 @@ class StoriesViewController: UIViewController
                         println("error: \(err.localizedDescription)")
                         return
                     }
-                    else if let dataString = response.text?.dataUsingEncoding(NSUTF8StringEncoding,
-                        allowLossyConversion: false)
+                    else
                     {
-                        println(response.text)
-                        let json = JSON(dataString)
-                        println(json["body"])
-                        //println(json["body"].stringValue)
-                        arr.append(json["body"].stringValue)
-                        
-                        println(arr[i])
+                        if let dataString =
+                            response.text?.dataUsingEncoding(NSUTF8StringEncoding,
+                            allowLossyConversion: false)
+                        {
+                            //println(response.text)
+                            let json = JSON(data: dataString)
+                            //println(json["body"])
+                            self.relatedStories?.append(json["body"].stringValue)
+                            
+                            //println(self.relatedStories![i])
+                        }
                     }
             })
         }
         
-        relatedStories = arr
+        println(self.relatedStories!)
+        storiesFound = true
 
     }
     
     
     func displayStory(storyIndex: Int)
     {
-        storyTextView.text = relatedStories[storyIndex]
+        while(!storiesFound) {}
+        
+        storyTextView.text = relatedStories![storyIndex]
     }
     
-    /*func getNextStory()
+    func getNextStory()
     {
         var request = HTTPTask()
         var original = self.currentStory
         
-        let params: Dictionary<String, AnyObject> = ["userid": userStory?.userID, "compareToid":"\(relatedStories![currentStory])"]
+        let params: Dictionary<String, AnyObject> = ["compareToId": "\(userStory!.storyID)"]
         
         request.POST("http://rockbottom.ml:8888/story"
             + "\(relatedStoriesIds![currentStory])" + "/worse",
@@ -183,9 +182,11 @@ class StoriesViewController: UIViewController
         var request = HTTPTask()
         var original = self.currentStory
         
+        let params: Dictionary<String, AnyObject> = ["compareToId": "\(userStory!.storyID)"]
+        
         request.POST("http://rockbottom.ml:8888/story"
             + "\(relatedStoriesIds![currentStory])" + "/notasbad",
-            parameters: ["aoeu": 2],
+            parameters: params,
             completionHandler:
             { (response: HTTPResponse) -> Void in
                 if let err = response.error
@@ -202,7 +203,7 @@ class StoriesViewController: UIViewController
         while(original == self.currentStory) {}
         
         displayStory(currentStory)
-    }*/
+    }
 
     /*
     // MARK: - Navigation
