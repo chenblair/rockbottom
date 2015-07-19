@@ -7,6 +7,7 @@ import android.widget.*;
 import java.net.*;
 import java.io.*;
 import java.lang.*;
+import org.json.*;
 import android.content.Intent;
 
 
@@ -22,8 +23,22 @@ public class ReadStory extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.story_display);
         display=(TextView)findViewById(R.id.textDisplay);
-        display.setText(MainActivity.storyText2+"hi"+hi);
-        hi++;
+        try {
+            if (MainActivity.storyText2==null)
+            {
+                display.setText("Loading...");
+                Intent intent = new Intent(this, ReadStory.class);
+                this.startActivity(intent);
+            } else {
+                JSONObject jObject = new JSONObject(MainActivity.storyText2);
+                display.setText(jObject.getString("id") + "hi" + hi);
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
     }
 
     @Override

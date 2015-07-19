@@ -154,9 +154,9 @@ public class MainActivity extends ActionBarActivity {
                 super.onPostExecute(result);
 
                 if(result.equals("working")){
-                    Toast.makeText(getApplicationContext(), "HTTP POST is working...", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), "HTTP POST is working...", Toast.LENGTH_LONG).show();
                 }else{
-                    Toast.makeText(getApplicationContext(), "Invalid POST req...", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), "Invalid POST req...", Toast.LENGTH_LONG).show();
                 }
             }
         }
