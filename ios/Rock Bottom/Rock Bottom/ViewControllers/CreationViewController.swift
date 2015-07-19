@@ -60,33 +60,41 @@ class CreationViewController: UIViewController
     
     @IBAction func submitPressed(sender: AnyObject)
     {
-        //story = Story(storyText: storyTextView.text, shittiness: rating)
-        println(UIDevice.currentDevice().identifierForVendor.UUIDString)
-        println(storyTextView.text)
-        println(rating)
+        story = Story(storyText: storyTextView.text, shittiness: rating)
         postStory()
     }
     
     func postStory()
     {
         var request = HTTPTask()
-        let params: Dictionary<String, AnyObject> = ["userid": UIDevice.currentDevice().identifierForVendor.UUIDString, "body": storyTextView.text, "rating": rating]
-        request.POST("http://rockbottom.ml:8888/story/new", parameters: params, completionHandler:
-            { (response: HTTPResponse) -> Void in
-                if let err = response.error
-                {
-                    println("error: \(err.localizedDescription)")
-                }
-                else
-                {
-                    if let dataFromString = response.text?.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
+        
+        if let story = self.story
+        {
+            /*println(story.uniqueID)
+            println(story.storyText)
+            println(story.shittiness)*/
+            let params: Dictionary<String, AnyObject> = ["userid": story.uniqueID, "body": story.storyText, "rating": story.shittiness]
+            request.POST("http://rockbottom.ml:8888/story/new", parameters: params, completionHandler:
+                { (response: HTTPResponse) -> Void in
+                    if let err = response.error
                     {
-                        let json = JSON(data: dataFromString)
-                        println(json["id"].stringValue)
+                        println("error: \(err.localizedDescription)")
                     }
-                }
-                
-            })
+                    else
+                    {
+                        if let dataFromString = response.text?.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
+                        {
+                            let json = JSON(data: dataFromString)
+                            println(json["id"].stringValue)
+                        }
+                    }
+                    
+                })
+        }
+        else
+        {
+            // error pop up?
+        }
     }
     
     func dismissKeyboard()

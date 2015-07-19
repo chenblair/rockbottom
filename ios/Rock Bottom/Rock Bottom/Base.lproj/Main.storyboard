@@ -217,6 +217,7 @@
                                 </state>
                                 <connections>
                                     <action selector="submitPressed:" destination="QvH-KL-iZv" eventType="touchUpInside" id="gEH-sR-PjR"/>
+                                    <segue destination="AQI-iB-VsM" kind="show" id="2zu-Tb-zpt"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qQs-9B-ioa">
@@ -399,6 +400,7 @@
                         <viewControllerLayoutGuide type="bottom" id="0KR-SQ-o7s"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="NQd-uk-5og">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
