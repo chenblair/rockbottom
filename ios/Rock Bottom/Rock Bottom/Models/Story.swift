@@ -7,19 +7,23 @@
 //
 
 import UIKit
+import Foundation
 
 class Story: NSObject
 {
     var storyText: String
     var shittiness: Int
-    var timestamp: NSDate
+    
+    var identifier: String
     
     init(storyText: String, shittiness: Int)
     {
         self.storyText = storyText
         self.shittiness = shittiness
+    
+        var device = UIDevice.currentDevice()
         
-        timestamp = NSDate()
+        identifier = device.identifierForVendor.UUIDString
     }
     
 }
