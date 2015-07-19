@@ -16,5 +16,45 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:width="300dp" />
+    <RatingBar
+        android:id="@+id/ratingBar1"
+        style = "?android:attr/ratingBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="10"
+        android:rating="5"
+        android:progressTint="#915f2e"
+        android:longClickable="true"
+        android:isIndicator="false"
+        android:stepSize="1"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+        android:clickable="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Not Bad"
+        android:id="@+id/textView"
+        android:layout_alignTop="@+id/ratingBar1"
+        android:layout_toLeftOf="@+id/ratingBar1"
+        android:layout_toStartOf="@+id/ratingBar1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Worst Day Ever"
+        android:id="@+id/textView2"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@+id/ratingBar1"
+        android:layout_alignTop="@+id/ratingBar1"
+        android:layout_toRightOf="@+id/ratingBar1"
+        android:layout_toEndOf="@+id/ratingBar1" />
 
 </RelativeLayout>

@@ -15,6 +15,7 @@ import android.content.Intent;
 public class MainActivity extends ActionBarActivity {
 
     public static String storyText;
+    public static int rating;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +31,12 @@ public class MainActivity extends ActionBarActivity {
 
     public void ReadStory(View view)
     {
+        RatingBar bar;
         EditText story;
         story = (EditText)findViewById(R.id.story);
+        bar = (RatingBar)findViewById(R.id.ratingBar1);
         storyText=story.getText().toString();
+        rating=bar.getNumStars();
         Intent intent = new Intent(this, ReadStory.class);
         this.startActivity(intent);
     }
