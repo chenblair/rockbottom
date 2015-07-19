@@ -26,10 +26,25 @@ class StoriesViewController: UIViewController
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        getRelatedStoriesIds()
         
-        getRelatedStories()
+        let priority = DISPATCH_QUEUE_PRIORITY_DEFAULT
+
+        var myQueue = dispatch_queue_create("com.myexample.MyCustomQueue", nil)
         
+        dispatch_sync(myQueue)
+        {
+            self.getRelatedStoriesIds()
+        }
+        dispatch_sync(myQueue)
+        {
+            self.getRelatedStories()
+        }
+        dispatch_sync(myQueue)
+        {
+            //self.displayStory(0)
+        }
+       
+    
         var swipeLeft: UISwipeGestureRecognizer =
         UISwipeGestureRecognizer(target: self, action: "getNextStory")
         swipeLeft.direction = UISwipeGestureRecognizerDirection.Left
@@ -94,6 +109,8 @@ class StoriesViewController: UIViewController
     {
         while(relatedStoriesIds.count <= 0) {}
         
+        var arr: [String] = []
+        
         for(var i=0;i<relatedStoriesIds.count;i++)
         {
             let curId = relatedStoriesIds[i]
@@ -112,48 +129,25 @@ class StoriesViewController: UIViewController
                     else if let dataString = response.text?.dataUsingEncoding(NSUTF8StringEncoding,
                         allowLossyConversion: false)
                     {
+                        println(response.text)
                         let json = JSON(dataString)
-                        println(json["body"].stringValue)
-                        self.relatedStories.append(json["body"].stringValue)
+                        println(json["body"])
+                        //println(json["body"].stringValue)
+                        arr.append(json["body"].stringValue)
                         
-                        println(self.relatedStories[i])
+                        println(arr[i])
                     }
             })
         }
+        
+        relatedStories = arr
 
     }
     
     
     func displayStory(storyIndex: Int)
     {
-        var request = HTTPTask()
-        
-        request.GET("http://rockbottom.ml:8888/story/"
-            + "\(relatedStoriesIds[storyIndex])", parameters: nil,
-            completionHandler:
-            { (response: HTTPResponse) -> Void in
-                if let err = response.error
-                {
-                    println("error: \(err.localizedDescription)")
-                    return
-                }
-                else
-                {
-                    if let dataFromString =
-                        response.text?.dataUsingEncoding(NSUTF8StringEncoding,
-                            allowLossyConversion: false)
-                    {
-                        let json = JSON(data: dataFromString)
-                        println(json["body"].stringValue)
-                        self.storyBody = json["body"].stringValue
-                        
-                        println(self.storyBody)
-                    }
-                }
-        })
-        
-        while(storyBody == "-1") {}
-        storyTextView.text = self.storyBody
+        storyTextView.text = relatedStories[storyIndex]
     }
     
     /*func getNextStory()
