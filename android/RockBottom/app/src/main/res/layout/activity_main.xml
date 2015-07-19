@@ -1,0 +1,37 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:ellipsize="start"
+        android:id="@+id/story"
+        android:layout_marginTop="79dp"
+        android:editable="true"
+        android:layout_alignWithParentIfMissing="false"
+        android:gravity="start"
+        android:hint="Having the worse day ever? No way! Type it here and we&apos;ll find someone with a worse day."
+        android:height="350dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:width="300dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:id="@+id/Submit"
+        android:layout_below="@+id/story"
+        android:layout_marginTop="46dp"
+        android:layout_alignRight="@+id/story"
+        android:layout_alignEnd="@+id/story"
+        android:layout_alignLeft="@+id/story"
+        android:layout_alignStart="@+id/story"
+        android:onClick="ReadStory" />
+</RelativeLayout>
