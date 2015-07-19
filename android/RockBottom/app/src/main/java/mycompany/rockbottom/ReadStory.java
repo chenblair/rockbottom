@@ -13,6 +13,7 @@ import android.content.Intent;
 public class ReadStory extends ActionBarActivity {
 
     private float x1,x2;
+    int hi=1;
     static final int MIN_DISTANCE = 150;
     public TextView display;
 
@@ -21,7 +22,8 @@ public class ReadStory extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.story_display);
         display=(TextView)findViewById(R.id.textDisplay);
-        display.setText(MainActivity.storyText2+"hi");
+        display.setText(MainActivity.storyText2+"hi"+hi);
+        hi++;
     }
 
     @Override

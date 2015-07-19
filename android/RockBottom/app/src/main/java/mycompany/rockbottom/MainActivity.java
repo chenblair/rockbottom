@@ -73,12 +73,15 @@ public class MainActivity extends ActionBarActivity {
                 String paramUsername = params[0];
                 String paramPassword = params[1];
                 String rate=params[2];
+                String website="http://rockbottom.ml:8888/story/new";
+                BufferedReader in;
 
                 HttpClient httpClient = new DefaultHttpClient();
 
                 // In a POST request, we don't pass the values in the URL.
                 //Therefore we use only the web page URL as the parameter of the HttpPost argument
-                HttpPost httpPost = new HttpPost("http://rockbottom.ml:8888/story/new");
+                HttpPost httpPost = new HttpPost(website);
+                //HttpGet request = new HttpGet(website);
 
                 // Because we are not passing values over the URL, we should have a mechanism to pass the values that can be
                 //uniquely separate by the other end.
@@ -104,6 +107,10 @@ public class MainActivity extends ActionBarActivity {
                     httpPost.setEntity(urlEncodedFormEntity);
 
                     try {
+                        //HttpResponse response = httpClient.execute(request);
+                        //in = new BufferedReader(new InputStreamReader(
+                        //        response.getEntity().getContent()));
+
                         // HttpResponse is an interface just like HttpPost.
                         //Therefore we can't initialize them
                         HttpResponse httpResponse = httpClient.execute(httpPost);
@@ -167,7 +174,7 @@ public class MainActivity extends ActionBarActivity {
         story = (EditText)findViewById(R.id.story);
         bar = (RatingBar)findViewById(R.id.ratingBar1);
         storyText= story.getText().toString();
-        rating=bar.getNumStars();
+        rating=(int)bar.getRating();
         this.sendPostRequest(uuid,storyText,Integer.toString(rating));
         Intent intent = new Intent(this, ReadStory.class);
         this.startActivity(intent);
