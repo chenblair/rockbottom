@@ -13,6 +13,7 @@
 		C409AB251B5B0F2800EEF6D2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C409AB231B5B0F2800EEF6D2 /* LaunchScreen.xib */; };
 		C409AB311B5B0F2800EEF6D2 /* Rock_BottomTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C409AB301B5B0F2800EEF6D2 /* Rock_BottomTests.swift */; };
 		C409AB3E1B5B166F00EEF6D2 /* CreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C409AB3D1B5B166F00EEF6D2 /* CreationViewController.swift */; };
+		C4D1ABCE1B5B49640091BF2A /* Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D1ABCD1B5B49640091BF2A /* Story.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +37,7 @@
 		C409AB2F1B5B0F2800EEF6D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C409AB301B5B0F2800EEF6D2 /* Rock_BottomTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rock_BottomTests.swift; sourceTree = "<group>"; };
 		C409AB3D1B5B166F00EEF6D2 /* CreationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreationViewController.swift; sourceTree = "<group>"; };
+		C4D1ABCD1B5B49640091BF2A /* Story.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Story.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +119,7 @@
 		C409AB3A1B5B15F000EEF6D2 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				C4D1ABCD1B5B49640091BF2A /* Story.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -238,6 +241,7 @@
 			files = (
 				C409AB1B1B5B0F2800EEF6D2 /* AppDelegate.swift in Sources */,
 				C409AB3E1B5B166F00EEF6D2 /* CreationViewController.swift in Sources */,
+				C4D1ABCE1B5B49640091BF2A /* Story.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,6 +439,7 @@
 				C409AB361B5B0F2800EEF6D2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C409AB371B5B0F2800EEF6D2 /* Build configuration list for PBXNativeTarget "Rock BottomTests" */ = {
 			isa = XCConfigurationList;
@@ -443,6 +448,7 @@
 				C409AB391B5B0F2800EEF6D2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
