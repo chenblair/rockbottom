@@ -20,7 +20,18 @@ import org.apache.http.*;
 import java.util.*;
 import org.apache.http.client.entity.*;
 import android.telephony.*;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.*;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -109,7 +120,15 @@ public class MainActivity extends ActionBarActivity {
                         while((bufferedStrChunk = bufferedReader.readLine()) != null){
                             stringBuilder.append(bufferedStrChunk);
                         }
-                        storyText2=stringBuilder.toString();
+                        try {
+                            storyText2 = stringBuilder.toString();
+                            JSONObject jObject = new JSONObject(storyText2);
+                            int aJsonInteger = jObject.getInt("id");
+                            storyText2=Integer.toString(aJsonInteger);
+                        }catch (Exception e)
+                        {
+
+                        }
                         return stringBuilder.toString();
 
                     } catch (ClientProtocolException cpe) {

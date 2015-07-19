@@ -151,7 +151,7 @@ public class ReadStory extends ActionBarActivity {
             @Override
             protected String doInBackground(String... params) {
 
-                String website=MainActivity.websiteString+"/story/"+MainActivity.uuid+"/related";
+                String website=MainActivity.websiteString+"/story/"+MainActivity.storyText2+"/related";
                 BufferedReader in;
 
                 HttpClient httpClient = new DefaultHttpClient();
