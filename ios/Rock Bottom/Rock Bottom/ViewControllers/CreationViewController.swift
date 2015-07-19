@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftHTTP
 
 class CreationViewController: UIViewController
 {
@@ -51,9 +52,25 @@ class CreationViewController: UIViewController
     
     @IBAction func submitPressed(sender: AnyObject)
     {
-        story = Story(storyText: storyTextView.text, shittiness: rating)
-        
-        // need to segue to story view
+        //story = Story(storyText: storyTextView.text, shittiness: rating)
+        println(UIDevice.currentDevice().identifierForVendor.UUIDString)
+        println(storyTextView.text)
+        println(rating)
+        post()
+    }
+    
+    
+    func post()
+    {
+        var request = HTTPTask()
+        let params: Dictionary<String, AnyObject> = ["userid": UIDevice.currentDevice().identifierForVendor.UUIDString, "body": storyTextView.text, "rating": rating]
+        request.POST("http://rockbottom.ml:8888/story/new", parameters: params,
+            completionHandler: {(response: HTTPResponse) in
+                if let err = response.error
+                {
+                    println("error: \(err.localizedDescription)")
+                }
+        })
     }
     
     

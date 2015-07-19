@@ -14,7 +14,7 @@ class Story: NSObject
     var storyText: String
     var shittiness: Int
     
-    var identifier: String
+    var uniqueID: String
     
     init(storyText: String, shittiness: Int)
     {
@@ -23,7 +23,7 @@ class Story: NSObject
     
         var device = UIDevice.currentDevice()
         
-        identifier = device.identifierForVendor.UUIDString
+        uniqueID = device.identifierForVendor.UUIDString
     }
     
 }

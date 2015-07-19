@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="QvH-KL-iZv">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -209,15 +210,6 @@
                                     </mask>
                                 </variation>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zvt-7v-9h8">
-                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                <state key="normal" title="Submit">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="submitPressed:" destination="QvH-KL-iZv" eventType="touchUpInside" id="gEH-sR-PjR"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qQs-9B-ioa">
                                 <rect key="frame" x="200" y="157" width="15" height="15"/>
                                 <constraints>
@@ -230,6 +222,15 @@
                                 <state key="selected" image="rating-circle_selected"/>
                                 <connections>
                                     <action selector="rate2Pressed:" destination="QvH-KL-iZv" eventType="touchUpInside" id="KXV-z5-rxx"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zvt-7v-9h8">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <state key="normal" title="Submit">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="submitPressed:" destination="QvH-KL-iZv" eventType="touchUpInside" id="gEH-sR-PjR"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -256,7 +257,9 @@
                                 <variation key="heightClass=regular-widthClass=compact" constant="5"/>
                             </constraint>
                             <constraint firstItem="W80-T5-wB9" firstAttribute="top" secondItem="DIE-b8-9bu" secondAttribute="bottom" constant="5" id="E3D-ii-OKD"/>
-                            <constraint firstAttribute="centerX" secondItem="Zvt-7v-9h8" secondAttribute="centerX" id="EBu-im-URT"/>
+                            <constraint firstAttribute="centerX" secondItem="Zvt-7v-9h8" secondAttribute="centerX" id="EBu-im-URT">
+                                <variation key="heightClass=regular-widthClass=compact" constant="150.5"/>
+                            </constraint>
                             <constraint firstItem="cMM-Nn-UGk" firstAttribute="bottom" secondItem="JSO-mh-F4l" secondAttribute="bottom" id="FeN-GV-r4w"/>
                             <constraint firstAttribute="centerX" secondItem="fYq-qU-l7y" secondAttribute="centerX" id="I3v-qd-S1I"/>
                             <constraint firstItem="rVq-5Z-ydb" firstAttribute="leading" secondItem="qy1-5d-p3Q" secondAttribute="leadingMargin" id="I73-Hz-sOi"/>
@@ -266,7 +269,7 @@
                             </constraint>
                             <constraint firstItem="NHF-qc-P3T" firstAttribute="top" secondItem="ae6-rV-Ngp" secondAttribute="top" id="J7j-gE-Sjl"/>
                             <constraint firstItem="MNT-7i-oJf" firstAttribute="top" secondItem="Zvt-7v-9h8" secondAttribute="bottom" constant="100" id="JVY-Eb-0y9">
-                                <variation key="heightClass=regular-widthClass=compact" constant="50"/>
+                                <variation key="heightClass=regular-widthClass=compact" constant="589"/>
                             </constraint>
                             <constraint firstItem="NHF-qc-P3T" firstAttribute="top" secondItem="W80-T5-wB9" secondAttribute="bottom" constant="5" id="MCn-f5-iXh"/>
                             <constraint firstItem="hSK-F6-H4a" firstAttribute="top" secondItem="NHF-qc-P3T" secondAttribute="top" id="Pyk-de-m6x"/>
@@ -331,22 +334,22 @@
                                 <exclude reference="Zvt-7v-9h8"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="3mJ-M8-6Df"/>
-                                <exclude reference="7qC-iR-xwY"/>
-                                <exclude reference="u2L-DT-5yq"/>
-                                <exclude reference="uaA-Uw-xCS"/>
-                                <exclude reference="bOb-ln-zpX"/>
-                                <exclude reference="nOk-7Y-mvh"/>
-                                <exclude reference="ptY-vc-Fk8"/>
                                 <exclude reference="2gZ-cB-jH0"/>
                                 <exclude reference="sI7-0n-Fgb"/>
+                                <exclude reference="EBu-im-URT"/>
                                 <exclude reference="I73-Hz-sOi"/>
                                 <exclude reference="gwh-nT-NJE"/>
                                 <exclude reference="oxm-ca-VJR"/>
+                                <exclude reference="3mJ-M8-6Df"/>
+                                <exclude reference="7qC-iR-xwY"/>
+                                <exclude reference="u2L-DT-5yq"/>
+                                <exclude reference="bOb-ln-zpX"/>
+                                <exclude reference="nOk-7Y-mvh"/>
+                                <exclude reference="ptY-vc-Fk8"/>
+                                <exclude reference="uaA-Uw-xCS"/>
                                 <exclude reference="CfP-aQ-Evv"/>
                                 <exclude reference="MCn-f5-iXh"/>
                                 <exclude reference="je6-Xe-nlb"/>
-                                <exclude reference="EBu-im-URT"/>
                                 <exclude reference="4Wv-Ac-XoG"/>
                                 <exclude reference="JVY-Eb-0y9"/>
                                 <exclude reference="biJ-lK-sj8"/>
@@ -361,10 +364,10 @@
                             <mask key="constraints">
                                 <include reference="2gZ-cB-jH0"/>
                                 <include reference="sI7-0n-Fgb"/>
+                                <include reference="EBu-im-URT"/>
                                 <include reference="I73-Hz-sOi"/>
                                 <include reference="gwh-nT-NJE"/>
                                 <include reference="oxm-ca-VJR"/>
-                                <include reference="EBu-im-URT"/>
                                 <include reference="JVY-Eb-0y9"/>
                                 <include reference="biJ-lK-sj8"/>
                             </mask>
