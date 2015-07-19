@@ -34,6 +34,7 @@ public class ReadStory extends ActionBarActivity {
     boolean more=false;
     String[] ids=new String[100];
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +88,7 @@ public class ReadStory extends ActionBarActivity {
             @Override
             protected String doInBackground(String... params) {
 
-                String website = "http://rockbottom.ml:8888/story/"+a;
+                String website = MainActivity.websiteString+"/story/"+a;
                 BufferedReader in;
 
                 HttpClient httpClient = new DefaultHttpClient();
@@ -150,7 +151,7 @@ public class ReadStory extends ActionBarActivity {
             @Override
             protected String doInBackground(String... params) {
 
-                String website="http://rockbottom.ml:8888/story/"+MainActivity.uuid+"/related";
+                String website=MainActivity.websiteString+"/story/"+MainActivity.uuid+"/related";
                 BufferedReader in;
 
                 HttpClient httpClient = new DefaultHttpClient();
@@ -216,7 +217,7 @@ public class ReadStory extends ActionBarActivity {
 
                 String paramUsername = params[0];
                 String otherName = params[1];
-                String website="http://rockbottom.ml:8888/story/"+otherName+"/";
+                String website=MainActivity.websiteString+"/story/"+otherName+"/";
                 if (more)
                     website+="worse";
                 else

@@ -29,6 +29,7 @@ public class MainActivity extends ActionBarActivity {
     public static String storyText2;
     public static int rating;
     public static String uuid;
+    public static String websiteString="http://rockbottom.ml:8888";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +52,7 @@ public class MainActivity extends ActionBarActivity {
                 String paramUsername = params[0];
                 String paramPassword = params[1];
                 String rate=params[2];
-                String website="http://rockbottom.ml:8888/story/new";
+                String website=websiteString+"/story/new";
                 BufferedReader in;
 
                 HttpClient httpClient = new DefaultHttpClient();
