@@ -14,11 +14,14 @@ public class ReadStory extends ActionBarActivity {
 
     private float x1,x2;
     static final int MIN_DISTANCE = 150;
+    public TextView display;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.story_display);
+        display=(TextView)findViewById(R.id.textDisplay);
+        display.setText(MainActivity.storyText2+"hi");
     }
 
     @Override
