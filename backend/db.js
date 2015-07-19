@@ -83,7 +83,7 @@ function newStory(userid, body, rating, callback) {
 						if (err) {
 							return callback(JSON.stringify({"error": err}));
 						}
-						updateRelated(Number(rows[0]["COUNT(*)"])); //async generate similar
+						updateRelated(Number(rows[0]["COUNT(*)"]), function () {}); //async generate similar
 						return callback(JSON.stringify({"id": Number(rows[0]["COUNT(*)"])}));
 					});
 				});
