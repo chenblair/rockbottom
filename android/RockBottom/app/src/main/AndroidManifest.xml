@@ -18,10 +18,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".InputStory"
-            android:label="InputStory" >
-        </activity>
-        <activity
             android:name=".ReadStory"
             android:label="ReadStory" >
         </activity>
