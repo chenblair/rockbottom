@@ -61,7 +61,10 @@ class CreationViewController: UIViewController
     @IBAction func submitPressed(sender: AnyObject)
     {
         story = Story(storyText: storyTextView.text, shittiness: rating)
+        
         postStory()
+        
+        performSegueWithIdentifier("showStories", sender: nil)
     }
     
     func postStory()
@@ -73,7 +76,7 @@ class CreationViewController: UIViewController
             /*println(story.uniqueID)
             println(story.storyText)
             println(story.shittiness)*/
-            let params: Dictionary<String, AnyObject> = ["userid": story.uniqueID, "body": story.storyText, "rating": story.shittiness]
+            let params: Dictionary<String, AnyObject> = ["userid": story.userID, "body": story.storyText, "rating": story.shittiness]
             request.POST("http://rockbottom.ml:8888/story/new", parameters: params, completionHandler:
                 { (response: HTTPResponse) -> Void in
                     if let err = response.error
@@ -85,10 +88,9 @@ class CreationViewController: UIViewController
                         if let dataFromString = response.text?.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
                         {
                             let json = JSON(data: dataFromString)
-                            println(json["id"].stringValue)
+                            self.story?.storyID = json["id"].intValue
                         }
                     }
-                    
                 })
         }
         else
@@ -274,7 +276,7 @@ class CreationViewController: UIViewController
     }
     
     
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -282,7 +284,17 @@ class CreationViewController: UIViewController
     {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if(segue.identifier == "showStories")
+        {
+            let storiesViewController = segue.destinationViewController as!
+                                        StoriesViewController
+            
+            while(self.story?.storyID == -1) {} // let post finish terribly
+            
+            storiesViewController.userStory = self.story
+            
+        }
     }
-    */
+    
 
 }

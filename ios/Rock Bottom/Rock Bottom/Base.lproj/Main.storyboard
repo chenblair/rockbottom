@@ -217,7 +217,6 @@
                                 </state>
                                 <connections>
                                     <action selector="submitPressed:" destination="QvH-KL-iZv" eventType="touchUpInside" id="gEH-sR-PjR"/>
-                                    <segue destination="AQI-iB-VsM" kind="show" id="2zu-Tb-zpt"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qQs-9B-ioa">
@@ -385,11 +384,12 @@
                         <outlet property="rateButton9" destination="cMM-Nn-UGk" id="Tkk-hi-DdS"/>
                         <outlet property="storyTextView" destination="rVq-5Z-ydb" id="qSP-vx-Gwh"/>
                         <outlet property="submitButton" destination="Zvt-7v-9h8" id="jtK-OU-tag"/>
+                        <segue destination="AQI-iB-VsM" kind="show" identifier="showStories" id="jls-FO-nMS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5fx-lJ-yfc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="343.5" y="270"/>
+            <point key="canvasLocation" x="331" y="270"/>
         </scene>
         <!--Stories View Controller-->
         <scene sceneID="d5N-um-b4o">
@@ -402,12 +402,96 @@
                     <view key="view" contentMode="scaleToFill" id="NQd-uk-5og">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Still think your day was worse?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Rb-Fd-3Ji">
+                                <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe to the right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="21h-J6-udj">
+                                <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Otherwise, swipe to the left for another story" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tlu-I5-NYF">
+                                <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Loading" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qyT-Td-9lx">
+                                <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="0KR-SQ-o7s" firstAttribute="top" secondItem="qyT-Td-9lx" secondAttribute="bottom" id="OU7-iK-bL6"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="qyT-Td-9lx" secondAttribute="trailing" id="OdB-T0-d7c"/>
+                            <constraint firstAttribute="centerX" secondItem="tlu-I5-NYF" secondAttribute="centerX" id="RDI-JM-qLr"/>
+                            <constraint firstItem="8Rb-Fd-3Ji" firstAttribute="top" secondItem="RXQ-E8-g8t" secondAttribute="bottom" id="RkG-Uk-jP0"/>
+                            <constraint firstAttribute="centerX" secondItem="21h-J6-udj" secondAttribute="centerX" id="Wk6-Q5-sLh"/>
+                            <constraint firstAttribute="centerX" secondItem="qyT-Td-9lx" secondAttribute="centerX" id="fND-6J-2Lo"/>
+                            <constraint firstAttribute="centerX" secondItem="8Rb-Fd-3Ji" secondAttribute="centerX" id="iMo-tN-Eh6"/>
+                            <constraint firstItem="21h-J6-udj" firstAttribute="top" secondItem="8Rb-Fd-3Ji" secondAttribute="bottom" id="j8J-kS-Nw5"/>
+                            <constraint firstItem="qyT-Td-9lx" firstAttribute="top" secondItem="tlu-I5-NYF" secondAttribute="bottom" constant="10" id="l75-aW-k2U"/>
+                            <constraint firstItem="qyT-Td-9lx" firstAttribute="leading" secondItem="NQd-uk-5og" secondAttribute="leadingMargin" id="oHN-5F-0oj"/>
+                            <constraint firstItem="tlu-I5-NYF" firstAttribute="top" secondItem="21h-J6-udj" secondAttribute="bottom" constant="8.5" id="xc3-jm-Oho"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="8Rb-Fd-3Ji"/>
+                                <exclude reference="21h-J6-udj"/>
+                                <exclude reference="tlu-I5-NYF"/>
+                                <exclude reference="qyT-Td-9lx"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="OU7-iK-bL6"/>
+                                <exclude reference="Wk6-Q5-sLh"/>
+                                <exclude reference="j8J-kS-Nw5"/>
+                                <exclude reference="RkG-Uk-jP0"/>
+                                <exclude reference="iMo-tN-Eh6"/>
+                                <exclude reference="RDI-JM-qLr"/>
+                                <exclude reference="xc3-jm-Oho"/>
+                                <exclude reference="OdB-T0-d7c"/>
+                                <exclude reference="fND-6J-2Lo"/>
+                                <exclude reference="l75-aW-k2U"/>
+                                <exclude reference="oHN-5F-0oj"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="8Rb-Fd-3Ji"/>
+                                <include reference="21h-J6-udj"/>
+                                <include reference="tlu-I5-NYF"/>
+                                <include reference="qyT-Td-9lx"/>
+                            </mask>
+                            <mask key="constraints">
+                                <include reference="OU7-iK-bL6"/>
+                                <include reference="Wk6-Q5-sLh"/>
+                                <include reference="j8J-kS-Nw5"/>
+                                <include reference="RkG-Uk-jP0"/>
+                                <include reference="iMo-tN-Eh6"/>
+                                <include reference="RDI-JM-qLr"/>
+                                <include reference="xc3-jm-Oho"/>
+                                <include reference="OdB-T0-d7c"/>
+                                <include reference="fND-6J-2Lo"/>
+                                <include reference="l75-aW-k2U"/>
+                                <include reference="oHN-5F-0oj"/>
+                            </mask>
+                        </variation>
                     </view>
+                    <connections>
+                        <outlet property="storyTextView" destination="qyT-Td-9lx" id="cGk-Ty-4r5"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hRg-p1-eIK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1144.5" y="270"/>
+            <point key="canvasLocation" x="1176" y="270"/>
         </scene>
     </scenes>
     <resources>
