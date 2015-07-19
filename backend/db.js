@@ -30,16 +30,21 @@ function updateRelated(id, callback) {
 				res.on('end', function () {
 					var ids = "";
 					var obj = JSON.parse(full);
-					for (var i = 1; i < obj.documents.length; i++) { //skipping first one
-						if (i != 1) ids += ",";
-						ids += (obj.documents[i]["id"][0]);
-					}
-					connection.query("UPDATE test_related SET relatedids = '" + ids + "' WHERE storyid = " + id, function (err, rows, fields) {
-						if (err) {
-							return callback(err);
+					if (obj.documents) {
+						for (var i = 1; i < obj.documents.length; i++) { //skipping first one
+							if (i != 1) ids += ",";
+							ids += (obj.documents[i]["id"][0]);
 						}
-						return callback(true);
-					});
+						connection.query("UPDATE test_related SET relatedids = '" + ids + "' WHERE storyid = " + id, function (err, rows, fields) {
+							if (err) {
+								return callback(err);
+							}
+							return callback(true);
+						});
+					}
+					else {
+						console.error(obj);
+					}
 				});
 			}).on("error", function (err) {
 				return callback(err);
@@ -101,7 +106,12 @@ function getStory(id, callback) {
 		if (err) {
 			return callback(JSON.stringify({"error": err}));
 		}
-		return callback(JSON.stringify({"body": rows[0]["body"]}));
+		if (rows[0] && rows[0]["body"]) {
+			return callback(JSON.stringify({"body": rows[0]["body"]}));
+		}
+		else {
+			return callback(JSON.stringify({"body": "you requested null!"}));
+		}
 	});
 	// callback("Story of ID " + id);
 }
@@ -110,7 +120,12 @@ function relatedStory(id, callback) {
 		if (err) {
 			return callback(JSON.stringify({"error": err}));
 		}
-		return callback(JSON.stringify({"ids":rows[0]["relatedids"].split(",")}));
+		if (rows[0]["relatedids"]) {
+			return callback(JSON.stringify({"ids":rows[0]["relatedids"].split(",")}));
+		}
+		else {
+			return callback(JSON.stringify({"ids":[8,7,6,5,4,3,2,1]}));
+		}
 	});
 	// callback("Related Story ID");
 }
