@@ -28,8 +28,13 @@ function updateRelated(id, callback) {
 				res.on('end', function () {
 					var ids = "";
 					var obj = JSON.parse(full);
+					if (obj["error"]) {
+						console.error(obj["error"]);
+						console.error(obj["actions"]["errors"]);
+						process.exit(1);
+					}
 					for (var i = 1; i < obj.documents.length; i++) { //skipping first one
-						if (i != 1) ids += ",";
+						if (i!=1) ids += ",";
 						ids += (obj.documents[i]["id"][0]);
 					}
 					connection.query("UPDATE test_related SET relatedids = '" + ids + "' WHERE storyid = " + id, function (err, rows, fields) {
@@ -46,7 +51,31 @@ function updateRelated(id, callback) {
 	},1);
 }
 
-updateRelated(1, function (result) {
-	console.log(result);
-	connection.end();
+var max = 9999;
+var cur = 1;
+function updateTheRelated() {
+	console.log("Started " + cur);
+	updateRelated(cur, function (result) {
+		if (result !== true) {
+			console.error(result);
+			process.exit(1);
+		}
+		console.log("Updated " + cur);
+		cur++;
+		if (cur > max) {
+			connection.end();
+			process.exit();
+		}
+		else {
+			setTimeout(updateTheRelated, 5000);
+		}
+	});
+}
+
+connection.query("SELECT COUNT(*) FROM test", function (err, rows, fields) {
+	if (err) {
+		return callback(JSON.stringify({"error": err}));
+	}
+	max = Number(rows[0]["COUNT(*)"]);
+	updateTheRelated();
 });
