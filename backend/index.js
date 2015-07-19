@@ -11,7 +11,7 @@ function async(callback) { //not necc here?
 }
 
 function continueRouting(request, parsed, response) {
-	response.writeHead(200, {"Content-Type": "text/json"});
+	response.writeHead(200, {"Content-Type": "text/json", "Access-Control-Allow-Origin": "http://rockbottom.ml"});
 
 	var rest = parsed.pathname.split("/");
 	rest.shift();
@@ -22,6 +22,7 @@ function continueRouting(request, parsed, response) {
 				db.randomStory(function (out) {
 					response.write(out);
 					response.end();
+					request.connection.destroy();
 				});
 			}
 			else {
@@ -31,6 +32,7 @@ function continueRouting(request, parsed, response) {
 					db.newStory(parsed.query.userid, parsed.query.body, parsed.query.rating, function (out) {
 						response.write(out);
 						response.end();
+						request.connection.destroy();
 					});
 				}
 				else {
@@ -40,6 +42,7 @@ function continueRouting(request, parsed, response) {
 						db.getStory(id, function (out) {
 							response.write(out);
 							response.end();
+							request.connection.destroy();
 						});
 					}
 					else {
@@ -48,30 +51,35 @@ function continueRouting(request, parsed, response) {
 							db.relatedStory(id, function (out) {
 								response.write(out);
 								response.end();
+								request.connection.destroy();
 							});
 						}
 						else if (method == "update") {
 							db.updateStory(id, parsed.query.userid, parsed.query.body, function (out) {
 								response.write(out);
 								response.end();
+								request.connection.destroy();
 							});
 						}
 						else if (method == "delete") {
 							db.deleteStory(id, parsed.query.userid, function (out) {
 								response.write(out);
 								response.end();
+								request.connection.destroy();
 							});
 						}
 						else if (method == "worse") {
 							db.updateRating(id, parsed.query.comparedToId, 1, function (out) {
 								response.write(out);
 								response.end();
+								request.connection.destroy();
 							});
 						}
 						else if (method == "notasbad") {
 							db.updateRating(id, parsed.query.comparedToId, -1, function (out) {
 								response.write(out);
 								response.end();
+								request.connection.destroy();
 							});
 						}
 					}

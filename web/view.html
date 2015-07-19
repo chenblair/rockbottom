@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="/images/icon.png">
+
+    <title>Rock Bottom</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+    <!-- Custom styles for this template -->
+    <link href="starter-template.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Rock Bottom</a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="#">Home</a>
+                    </li>
+                    <li><a href="#about">Post your story</a>
+                    </li>
+                    <li class="active"><a href="#contact">Read other's stories</a>
+                    </li>
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="starter-template">
+            <h1>Read other's stories</h1>
+            <form role="form" id="bcd">
+                <div class="panel panel-default" id="thepanel">
+                    <div class="panel-heading text-left">A story</div>
+                    <div class="panel-body">
+                        <input type="hidden" id="uuid" name="userid" value="" required>
+                        <p id="content"></p>
+                    </div>
+                    <div class="panel-footer">
+                        <button type="button" id="neg" class="btn btn-default btn-danger">Not as bad</button>
+                        <button type="button" id="pos" class="btn btn-default btn-success">Worse</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script>
+function randomString(length, chars) {
+    var result = '';
+    for (var i = length; i > 0; --i) result += chars[Math.round(Math.random() * (chars.length - 1))];
+    return result;
+}
+if (!localStorage.uuid) { localStorage.uuid = "WEB" + randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'); }
+if (document.getElementById("uuid")) { document.getElementById("uuid").value = localStorage.uuid; }
+    
+abc.onsubmit = function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!$("#uuid").val() || !$("#formInput2").val() || !$("#body").val()) {
+        return alert("Required fields missing!");
+    }
+    $.ajax({
+        url:"http://rockbottom.ml:8888/story/new",
+        type:"POST",
+        data:{
+            "userid":$("#uuid").val(),
+            "rating":$("#formInput2").val(),
+            "body":$("#body").val()
+        }
+    }).done(function (o) {
+        if (o) {
+            localStorage.lastPostedId = o.id;
+            localStorage.postedIds += "," + o.id + ",";
+        }
+        else {
+            console.log(o);
+            return alert("Fail");
+        }
+    }).fail(function (e) {
+        console.log(e);
+        return alert("Fail");
+    });
+    return 0;
+}
+
+var curstories = [];
+var curshowingid = -1;
+
+function loadAStory(id) {
+    if (id == -1) {
+        curshowingid = -1;
+        $("#thepanel").fadeOut();
+        $("#content")[0].innerHTML = "No more stories to show!";
+        $("#thepanel").show(); 
+        return;
+    }
+    $.ajax({
+        url:"http://rockbottom.ml:8888/story/" + id,
+        type:"GET"
+        }).done(function (j) {
+            if (j) {
+                curshowingid = id;
+                $("#thepanel").fadeOut();
+                $("#content")[0].innerHTML = j.body;
+                $("#thepanel").show();
+            }
+            else {
+                console.log(j);
+                return alert("Fail");
+            }
+        }).fail(function (e) {
+            console.log(e);
+            return alert("Fail");
+    });
+}
+
+function goThroughLoadingStories() {
+    var index = 0;
+    while (index < curstories.length) {
+        if (localStorage.postedIds.indexOf ("," + curstories[index] + ",") != -1 || localStorage.postedIds.indexOf ("," + curstories[index] + ",") != -1) {
+            index++;
+        }
+    }
+    if (index < curstories.length) loadAStory(curstories[index]);
+    else {
+        loadAStory(-1);
+    }
+}
+
+if (document.getElementById("bcd")) {
+    //load first
+    if (localStorage.lastPostedId) {
+        $.ajax({
+            url:"http://rockbottom.ml:8888/story/" + localStorage.lastPostedId + "/related",
+            type:"GET"
+            }).done(function (j) {
+                if (j) {
+                    curstories = j.ids;
+                    goThroughLoadingStories();
+                }
+                else {
+                    console.log(j);
+                    return alert("Fail");
+                }
+            }).fail(function (e) {
+                console.log(e);
+                return alert("Fail");
+        });
+    }
+    else {
+        $.ajax({
+        url:"http://rockbottom.ml:8888/story",
+        type:"GET"
+        }).done(function (o) {
+            if (o) {
+                localStorage.lastPostedId = o.id;
+                //curstories.push(o.id);
+                $.ajax({
+                    url:"http://rockbottom.ml:8888/story/" + localStorage.lastPostedId + "/related",
+                    type:"GET"
+                    }).done(function (j) {
+                        if (j) {
+                            curstories = j.ids;
+                            curstories.push(o.id);
+                            goThroughLoadingStories();
+                        }
+                        else {
+                            console.log(j);
+                            return alert("Fail");
+                        }
+                    }).fail(function (e) {
+                        console.log(e);
+                        return alert("Fail");
+                });
+            }
+            else {
+                console.log(o);
+                return alert("Fail");
+            }
+        }).fail(function (e) {
+            console.log(e);
+            return alert("Fail");
+        });
+    }
+    $("#neg").onclick(function (e) {
+        $.ajax({
+            url:"http://rockbottom.ml:8888/story/" + curshowingid + "/notasbad",
+            type:"POST",
+            data: {
+                "userid": $("#uuid").val(),
+                "compareToId": localStorage.lastPostedId
+            }
+            }).done(function (j) {
+                if (j.success) {
+                    localStorage.viewedIds += "," + curshowingid + ",";
+                    goThroughLoadingStories();
+                }
+                else {
+                    console.log(j);
+                    return alert("Fail");
+                }
+            }).fail(function (e) {
+                console.log(e);
+                return alert("Fail");
+        });
+    });
+    $("#pos").onclick(function (e) {
+        $.ajax({
+            url:"http://rockbottom.ml:8888/story/" + curshowingid + "/worse",
+            type:"POST",
+            data: {
+                "userid": $("#uuid").val(),
+                "compareToId": localStorage.lastPostedId
+            }
+            }).done(function (j) {
+                if (j.success) {
+                    localStorage.viewedIds += "," + curshowingid + ",";
+                    goThroughLoadingStories();
+                }
+                else {
+                    console.log(j);
+                    return alert("Fail");
+                }
+            }).fail(function (e) {
+                console.log(e);
+                return alert("Fail");
+        });
+    });
+}
+
+/*
+localStorage.lastPostedId
+localStorage.postedIds
+localStorage.viewedIds
+*/
+    </script>
+
+
+</body>
+
+</html>
