@@ -28,6 +28,7 @@ public class MainActivity extends ActionBarActivity {
     public static String storyText;
     public static String storyText2;
     public static int rating;
+    public static String uuid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,29 +40,6 @@ public class MainActivity extends ActionBarActivity {
     {
         Intent intent = new Intent(this, InputStory.class);
         this.startActivity(intent);
-    }
-    private class SendHttpRequestTask extends AsyncTask<String, String, String> {
-
-        @Override
-        protected String doInBackground(String... params) {
-            try {
-
-                // Defined URL  where to send data
-                URL url = new URL("http://rockbottom.ml:8888/story/new");
-
-                // Send POST data request
-
-                URLConnection conn = url.openConnection();
-                conn.setDoOutput(true);
-                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-                wr.write("hahahahd");
-                wr.flush();
-            } catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-            return "url";
-        }
     }
     private void sendPostRequest(String givenUsername, String givenPassword,String rate) {
 
@@ -167,7 +145,7 @@ public class MainActivity extends ActionBarActivity {
     public void ReadStory(View view)
     {
         TelephonyManager tManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-        String uuid = tManager.getDeviceId();
+        uuid = tManager.getDeviceId();
         //new SendHttpRequestTask().execute()
         RatingBar bar;
         EditText story;
@@ -176,6 +154,7 @@ public class MainActivity extends ActionBarActivity {
         storyText= story.getText().toString();
         rating=(int)bar.getRating();
         this.sendPostRequest(uuid,storyText,Integer.toString(rating));
+        ReadStory.sendGetRequest();
         Intent intent = new Intent(this, ReadStory.class);
         this.startActivity(intent);
 
