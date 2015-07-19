@@ -25,7 +25,7 @@ class CreationViewController: UIViewController
     @IBOutlet weak var submitButton: UIButton!
     
     var story: Story?
-    var rating: Int = 5
+    var rating: Int = 5 // default
 
     override func viewDidLoad()
     {
@@ -48,6 +48,14 @@ class CreationViewController: UIViewController
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    @IBAction func submitPressed(sender: AnyObject)
+    {
+        story = Story(storyText: storyTextView.text, shittiness: rating)
+        
+        // need to segue to story view
+    }
+    
     
     // MARK: Rating buttons
     

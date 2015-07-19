@@ -10,4 +10,16 @@ import UIKit
 
 class Story: NSObject
 {
+    var storyText: String
+    var shittiness: Int
+    var timestamp: NSDate
+    
+    init(storyText: String, shittiness: Int)
+    {
+        self.storyText = storyText
+        self.shittiness = shittiness
+        
+        timestamp = NSDate()
+    }
+    
 }
