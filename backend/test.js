@@ -16,7 +16,7 @@ function updateRelated(id, callback) {
 			if (err) {
 				return callback(err);
 			}
-			https.get("https://api.idolondemand.com/1/api/sync/querytextindex/v1?&absolute_max_results=100&indexes=stories&print_fields=id&apikey=6322998c-9619-4719-b589-e5aa06c87679&text=" + encodeURIComponent(rows[0]["body"]), function (res) {
+			https.get("https://api.idolondemand.com/1/api/sync/querytextindex/v1?&absolute_max_results=100&indexes=stories&print_fields=id&apikey=6322998c-9619-4719-b589-e5aa06c87679&text=" + encodeURIComponent(rows[0]["body"].replace(/"/g, "")), function (res) {
 				var full = "";
 				res.on('data', function (data) {
 					full += data;

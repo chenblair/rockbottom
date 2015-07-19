@@ -18,7 +18,7 @@ function updateRelated(id, callback) {
 			if (err) {
 				return callback(err);
 			}
-			https.get("https://api.idolondemand.com/1/api/sync/querytextindex/v1?&absolute_max_results=100&indexes=stories&print_fields=id&apikey=6322998c-9619-4719-b589-e5aa06c87679&text=" + encodeURIComponent(rows[0]["body"]), function (res) {
+			https.get("https://api.idolondemand.com/1/api/sync/querytextindex/v1?&absolute_max_results=100&indexes=stories&print_fields=id&apikey=6322998c-9619-4719-b589-e5aa06c87679&text=" + encodeURIComponent(rows[0]["body"].replace(/"/g, "")), function (res) {
 				var full = "";
 				res.on('data', function (data) {
 					full += data;
@@ -106,7 +106,13 @@ function getStory(id, callback) {
 	// callback("Story of ID " + id);
 }
 function relatedStory(id, callback) {
-	callback("Related Story ID");
+	connection.query("SELECT relatedids FROM test_related WHERE storyid = " + id, function (err, rows, fields) {
+		if (err) {
+			return callback(JSON.stringify({"error": err}));
+		}
+		return callback(JSON.stringify({"ids":rows[0]["relatedids"].split(",")}));
+	});
+	// callback("Related Story ID");
 }
 function updateStory(id, userid, body, callback) {
 	connection.query("SELECT userid FROM test WHERE id = " + id, function (err, rows, fields) {
