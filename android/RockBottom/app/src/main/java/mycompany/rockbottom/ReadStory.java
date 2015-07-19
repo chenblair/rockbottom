@@ -31,6 +31,7 @@ public class ReadStory extends ActionBarActivity {
     static final int MIN_DISTANCE = 150;
     int arraySize,counter=0;
     public TextView display;
+    boolean more=false;
     String[] ids=new String[100];
 
     @Override
@@ -206,7 +207,7 @@ public class ReadStory extends ActionBarActivity {
         SendPostReqAsyncTask sendPostReqAsyncTask = new SendPostReqAsyncTask();
         sendPostReqAsyncTask.execute();
     }
-   /* private void sendPostRequest(String givenUsername, String givenPassword,String rate) {
+    private void sendJudgement(String paramUsername, String otherName) {
 
         class SendPostReqAsyncTask extends AsyncTask<String, Void, String>{
 
@@ -214,10 +215,13 @@ public class ReadStory extends ActionBarActivity {
             protected String doInBackground(String... params) {
 
                 String paramUsername = params[0];
-                String paramPassword = params[1];
-                String rate=params[2];
-                String website="http://rockbottom.ml:8888/story/"+"";
-                BufferedReader in;
+                String otherName = params[1];
+                String website="http://rockbottom.ml:8888/story/"+otherName+"/";
+                if (more)
+                    website+="worse";
+                else
+                    website+="notasbad";
+                //BufferedReader in;
 
                 HttpClient httpClient = new DefaultHttpClient();
 
@@ -231,15 +235,13 @@ public class ReadStory extends ActionBarActivity {
                 //To achieve that we use BasicNameValuePair
                 //Things we need to pass with the POST request
                 BasicNameValuePair usernameBasicNameValuePair = new BasicNameValuePair("userid", paramUsername);
-                BasicNameValuePair passwordBasicNameValuePAir = new BasicNameValuePair("body", paramPassword);
-                BasicNameValuePair rating = new BasicNameValuePair("rating", rate);
+                BasicNameValuePair passwordBasicNameValuePAir = new BasicNameValuePair("comparetoid",otherName);
 
                 // We add the content that we want to pass with the POST request to as name-value pairs
                 //Now we put those sending details to an ArrayList with type safe of NameValuePair
                 List<NameValuePair> nameValuePairList = new ArrayList<NameValuePair>();
                 nameValuePairList.add(usernameBasicNameValuePair);
                 nameValuePairList.add(passwordBasicNameValuePAir);
-                nameValuePairList.add(rating);
 
                 try {
                     // UrlEncodedFormEntity is an entity composed of a list of url-encoded pairs.
@@ -273,7 +275,6 @@ public class ReadStory extends ActionBarActivity {
                         while((bufferedStrChunk = bufferedReader.readLine()) != null){
                             stringBuilder.append(bufferedStrChunk);
                         }
-                        storyText2=stringBuilder.toString();
                         return stringBuilder.toString();
 
                     } catch (ClientProtocolException cpe) {
@@ -288,21 +289,17 @@ public class ReadStory extends ActionBarActivity {
                     System.out.println("An Exception given because of UrlEncodedFormEntity argument :" + uee);
                     uee.printStackTrace();
                 }
-
                 return null;
             }
 
             @Override
             protected void onPostExecute(String result) {
                 super.onPostExecute(result);
-
-                if(result.equals("working")){
-                    //Toast.makeText(getApplicationContext(), "HTTP POST is working...", Toast.LENGTH_LONG).show();
-                }else{
-                    //Toast.makeText(getApplicationContext(), "Invalid POST req...", Toast.LENGTH_LONG).show();
-                }
             }
-        }*/
+        }
+        SendPostReqAsyncTask sendPostReqAsyncTask = new SendPostReqAsyncTask();
+        sendPostReqAsyncTask.execute(paramUsername, otherName);
+    }
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
@@ -321,18 +318,18 @@ public class ReadStory extends ActionBarActivity {
                     if (x2 > x1)
                     {
                         Toast.makeText(this, "Left to Right swipe [Next]", Toast.LENGTH_SHORT).show ();
-                        counter++;
-                        displayStory();
+                        more=false;
                     }
 
                     // Right to left swipe action
                     else
                     {
                         Toast.makeText(this, "Right to Left swipe [Previous]", Toast.LENGTH_SHORT).show ();
-                        counter++;
-                        displayStory();
+                        more=true;
                     }
-
+                    sendJudgement(MainActivity.uuid,ids[counter]);
+                    counter++;
+                    displayStory();
                 }
                 else
                 {
