@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftHTTP
+import SwiftyJSON
 
 class CreationViewController: UIViewController
 {
@@ -41,6 +42,13 @@ class CreationViewController: UIViewController
         rateButton3.selected = true
         rateButton4.selected = true
         rateButton5.selected = true
+        
+        var hideKeyboard: UISwipeGestureRecognizer =
+        UISwipeGestureRecognizer(target: self, action: "dismissKeyboard")
+        
+        hideKeyboard.direction = UISwipeGestureRecognizerDirection.Down
+        
+        self.view.addGestureRecognizer(hideKeyboard)
 
     }
 
@@ -56,21 +64,34 @@ class CreationViewController: UIViewController
         println(UIDevice.currentDevice().identifierForVendor.UUIDString)
         println(storyTextView.text)
         println(rating)
-        post()
+        postStory()
     }
     
-    
-    func post()
+    func postStory()
     {
         var request = HTTPTask()
         let params: Dictionary<String, AnyObject> = ["userid": UIDevice.currentDevice().identifierForVendor.UUIDString, "body": storyTextView.text, "rating": rating]
-        request.POST("http://rockbottom.ml:8888/story/new", parameters: params,
-            completionHandler: {(response: HTTPResponse) in
+        request.POST("http://rockbottom.ml:8888/story/new", parameters: params, completionHandler:
+            { (response: HTTPResponse) -> Void in
                 if let err = response.error
                 {
                     println("error: \(err.localizedDescription)")
                 }
-        })
+                else
+                {
+                    if let dataFromString = response.text?.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
+                    {
+                        let json = JSON(data: dataFromString)
+                        println(json["id"].stringValue)
+                    }
+                }
+                
+            })
+    }
+    
+    func dismissKeyboard()
+    {
+        self.storyTextView.resignFirstResponder()
     }
     
     
