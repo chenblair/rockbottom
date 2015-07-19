@@ -14,16 +14,14 @@ class Story: NSObject
     var storyText: String
     var shittiness: Int
     
-    var uniqueID: String
+    var userID: String = UIDevice.currentDevice().identifierForVendor.UUIDString
+
+    var storyID: Int = -1
     
     init(storyText: String, shittiness: Int)
     {
         self.storyText = storyText
         self.shittiness = shittiness
-    
-        var device = UIDevice.currentDevice()
-        
-        uniqueID = device.identifierForVendor.UUIDString
     }
     
 }

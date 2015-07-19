@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftHTTP
+import SwiftyJSON
 
 class CreationViewController: UIViewController
 {
@@ -41,6 +42,13 @@ class CreationViewController: UIViewController
         rateButton3.selected = true
         rateButton4.selected = true
         rateButton5.selected = true
+        
+        var hideKeyboard: UISwipeGestureRecognizer =
+        UISwipeGestureRecognizer(target: self, action: "dismissKeyboard")
+        
+        hideKeyboard.direction = UISwipeGestureRecognizerDirection.Down
+        
+        self.view.addGestureRecognizer(hideKeyboard)
 
     }
 
@@ -52,25 +60,48 @@ class CreationViewController: UIViewController
     
     @IBAction func submitPressed(sender: AnyObject)
     {
-        //story = Story(storyText: storyTextView.text, shittiness: rating)
-        println(UIDevice.currentDevice().identifierForVendor.UUIDString)
-        println(storyTextView.text)
-        println(rating)
-        post()
+        story = Story(storyText: storyTextView.text, shittiness: rating)
+        
+        postStory()
+        
+        performSegueWithIdentifier("showStories", sender: nil)
     }
     
-    
-    func post()
+    func postStory()
     {
         var request = HTTPTask()
-        let params: Dictionary<String, AnyObject> = ["userid": UIDevice.currentDevice().identifierForVendor.UUIDString, "body": storyTextView.text, "rating": rating]
-        request.POST("http://rockbottom.ml:8888/story/new", parameters: params,
-            completionHandler: {(response: HTTPResponse) in
-                if let err = response.error
-                {
-                    println("error: \(err.localizedDescription)")
-                }
-        })
+        
+        if let story = self.story
+        {
+            /*println(story.uniqueID)
+            println(story.storyText)
+            println(story.shittiness)*/
+            let params: Dictionary<String, AnyObject> = ["userid": story.userID, "body": story.storyText, "rating": story.shittiness]
+            request.POST("http://rockbottom.ml:8888/story/new", parameters: params, completionHandler:
+                { (response: HTTPResponse) -> Void in
+                    if let err = response.error
+                    {
+                        println("error: \(err.localizedDescription)")
+                    }
+                    else
+                    {
+                        if let dataFromString = response.text?.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
+                        {
+                            let json = JSON(data: dataFromString)
+                            self.story?.storyID = json["id"].intValue
+                        }
+                    }
+                })
+        }
+        else
+        {
+            // error pop up?
+        }
+    }
+    
+    func dismissKeyboard()
+    {
+        self.storyTextView.resignFirstResponder()
     }
     
     
@@ -245,7 +276,7 @@ class CreationViewController: UIViewController
     }
     
     
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -253,7 +284,17 @@ class CreationViewController: UIViewController
     {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if(segue.identifier == "showStories")
+        {
+            let storiesViewController = segue.destinationViewController as!
+                                        StoriesViewController
+            
+            while(self.story?.storyID == -1) {} // let post finish terribly
+            
+            storiesViewController.userStory = self.story
+            
+        }
     }
-    */
+    
 
 }
