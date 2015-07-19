@@ -155,7 +155,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
         SendPostReqAsyncTask sendPostReqAsyncTask = new SendPostReqAsyncTask();
-        sendPostReqAsyncTask.execute(givenUsername, givenPassword,rate);
+        sendPostReqAsyncTask.execute(givenUsername, givenPassword, rate);
     }
     public void ReadStory(View view)
     {
@@ -174,7 +174,16 @@ public class MainActivity extends ActionBarActivity {
         this.startActivity(intent);
 
     }
-
+    public void addStar(View view)
+    {
+        RatingBar bar = (RatingBar)findViewById(R.id.ratingBar1);
+        bar.setRating(bar.getRating()+1);
+    }
+    public void subtractStar(View view)
+    {
+        RatingBar bar = (RatingBar)findViewById(R.id.ratingBar1);
+        bar.setRating(bar.getRating()-1);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

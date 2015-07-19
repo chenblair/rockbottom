@@ -325,18 +325,22 @@ public class ReadStory extends ActionBarActivity {
                     // Left to Right swipe action
                     if (x2 > x1)
                     {
-                        Toast.makeText(this, "Left to Right swipe [Next]", Toast.LENGTH_SHORT).show ();
+                        //Toast.makeText(this, "Left to Right swipe [Next]", Toast.LENGTH_SHORT).show ();
                         more=false;
                     }
 
                     // Right to left swipe action
                     else
                     {
-                        Toast.makeText(this, "Right to Left swipe [Previous]", Toast.LENGTH_SHORT).show ();
+                        //Toast.makeText(this, "Right to Left swipe [Previous]", Toast.LENGTH_SHORT).show ();
                         more=true;
                     }
                     sendJudgement(MainActivity.uuid,ids[counter]);
                     counter++;
+                    if (counter==arraySize)
+                    {
+                        counter=0;
+                    }
                     displayStory();
                 }
                 else

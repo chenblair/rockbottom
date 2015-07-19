@@ -18,7 +18,7 @@
         android:editable="true"
         android:layout_alignWithParentIfMissing="false"
         android:gravity="start"
-        android:hint="Having the worse day ever? No way! Type it here and we&apos;ll find someone with a worse day."
+        android:hint="Having the worst day ever? No way! Type it here and we&apos;ll find someone with a worse day."
         android:height="350dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -150,5 +150,29 @@
         android:layout_alignTop="@+id/ratingBar1"
         android:layout_toRightOf="@+id/ratingBar1"
         android:layout_toEndOf="@+id/ratingBar1" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+"
+        android:id="@+id/button2"
+        android:layout_below="@+id/ratingBar1"
+        android:layout_alignRight="@+id/story"
+        android:layout_marginRight="60dp"
+        android:onClick="addStar" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-"
+        android:id="@+id/button3"
+        android:layout_alignBottom="@+id/button2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="90dp"
+        android:singleLine="true"
+        android:onClick="subtractStar" />
 
 </RelativeLayout>
