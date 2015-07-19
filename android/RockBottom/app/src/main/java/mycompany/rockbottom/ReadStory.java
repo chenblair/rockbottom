@@ -21,6 +21,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.*;
 import android.content.Intent;
 import org.apache.http.client.methods.*;
+import android.text.method.*;
 
 
 public class ReadStory extends ActionBarActivity {
@@ -40,6 +41,7 @@ public class ReadStory extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.story_display);
         display=(TextView)findViewById(R.id.textDisplay);
+        display.setMovementMethod(new ScrollingMovementMethod());
         try {
             for (;;) {
                 if (idArray == null) {
@@ -61,6 +63,11 @@ public class ReadStory extends ActionBarActivity {
         {
             e.printStackTrace();
         }
+    }
+    public void InputStory(View view)
+    {
+        Intent intent = new Intent(this, MainActivity.class);
+        this.startActivity(intent);
     }
     public void displayStory()
     {

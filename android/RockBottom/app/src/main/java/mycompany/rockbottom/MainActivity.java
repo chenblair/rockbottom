@@ -48,11 +48,6 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void InputStory(View view)
-    {
-        Intent intent = new Intent(this, InputStory.class);
-        this.startActivity(intent);
-    }
     private void sendPostRequest(String givenUsername, String givenPassword,String rate) {
 
         class SendPostReqAsyncTask extends AsyncTask<String, Void, String>{
